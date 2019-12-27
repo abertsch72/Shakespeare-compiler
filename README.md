@@ -1,2 +1,2 @@
 # Shakespeare-compiler
-A java-based compiler for the esoteric programming language Shakespeare. Currently under development.
+A java-based transpiler for the esoteric programming language Shakespeare. Will produce python output.
