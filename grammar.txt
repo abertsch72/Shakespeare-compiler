@@ -1,0 +1,62 @@
+END: . or !
+
+start symbol: prog
+
+prog: 		title char_decls sections
+title: 		ID END
+char_decls: 	CHAR COMMA ID END char_decls 
+		| CHAR COMMA ID END
+sections:	section sections
+		| section
+section: 	kwACT_OR_SCENE ROMAN_NUM COLON ID END opt_statments
+opt_statements: statement opt_statements
+		| ε 
+statement: 	entrance | exit | speech
+entrance:	LBRACKET kwENTER CHAR opt_char_list
+opt_char_list:	COMMA CHAR opt_char_list
+		| ε
+exit:		kwEXIT CHAR
+		| kwEXUENT CHAR COMMA CHAR opt_char_list
+		| kwEXUENT
+speech:		CHAR COLON sentence opt_sent_list
+opt_sent_list:	sentence opt_sent_list
+		| ε
+sentence: 	output 
+		| input 
+		| goto 
+		| statement
+		| push
+		| pop
+		| cond_start
+		| cond_end
+output:		kwBYTE_OUTPUT END 
+		| kwCHAR_OUTPUT END
+input: 		kwBYTE_INPUT END
+		| kwCHAR_INPUT END
+goto:		kwGOTO ID END
+push:		kwPUSH END
+pop:		kwPOP END
+		| kwPOP ID END
+statement:	kwADDRESS kwASSIGN constant
+		| kwADDRESS constant
+constant:	opt_multipliers value
+		| arith_op constant
+opt_multipliers:POS_ADJ opt_multipliers
+		| NEG_ADJ opt_multipliers
+value:		kwNEG
+		| kwPOS
+		| kwZERO
+		| kwYOU
+		| kwME
+arith_op:	kwSQUARE
+		| kwDIFFERENCE
+		| kwSUM
+cond_start:	ref POS_ADJ ref QUESTION
+		| ref NEG_ADJ ref QUESTION
+ref:		kwME
+		| kwYOU
+		| CHAR
+		| constant
+cond_end:	kwIF_TRUE goto 
+		| kwIF_FALSE goto
+
