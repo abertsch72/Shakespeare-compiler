@@ -12,7 +12,7 @@ section: 	kwACT_OR_SCENE ROMAN_NUM COLON ID END opt_statments
 opt_statements: statement opt_statements
 		| ε 
 statement: 	entrance | exit | speech
-entrance:	LBRACKET kwENTER CHAR opt_char_list
+entrance:	LBRACKET kwENTER CHAR opt_char_list RBRACKET
 opt_char_list:	COMMA CHAR opt_char_list
 		| ε
 exit:		kwEXIT CHAR
